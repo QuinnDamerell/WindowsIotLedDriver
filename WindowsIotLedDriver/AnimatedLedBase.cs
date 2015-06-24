@@ -44,7 +44,6 @@ namespace WindowsIotLedDriver
             }
 
             return true;
-
         }
 
         //

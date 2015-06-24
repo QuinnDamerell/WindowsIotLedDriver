@@ -15,7 +15,7 @@ namespace LedDriverSample
         public VisualController()
         {
             // Create the base controller
-            m_baseController = new LedController(this, ControlerUpdateType.SingleSlot);
+            m_baseController = new LedController(this, ControlerUpdateType.AllSlots);
             m_baseController.ToggleAnimation(true, true);
         }
 

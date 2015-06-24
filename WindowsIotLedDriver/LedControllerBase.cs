@@ -284,14 +284,34 @@ namespace WindowsIotLedDriver
             m_animationListeners.Add(new WeakReference<IAnimationTickListner>(listener));
         }
 
+        // The call back from the animator
         public bool NotifiyAnimationTick(int timeElapsedMs)
         {
+            // Loop through all of the registered LED classes. Keep track if there were any updates
+            // on this animation tick.
+            bool wasUpdate = false;
             foreach (WeakReference<IAnimationTickListner> weakListener in m_animationListeners)
             {
                 IAnimationTickListner listener;
                 if(weakListener.TryGetTarget(out listener))
                 {
-                    listener.NotifiyAnimationTick(timeElapsedMs);
+                    bool updated = listener.NotifiyAnimationTick(timeElapsedMs);
+                    if(!wasUpdate)
+                    {
+                        wasUpdate = updated;
+                    }
+                }
+            }
+
+            // Check our update type
+            if (m_updateType == ControlerUpdateType.AllSlots)
+            {
+                // if the update type is all slots and we are animating we will ignore
+                // updates while animating so we can do the update once at the end.
+                // Update the state if something changed or we always should.
+                if(wasUpdate || m_alwaysPaint)
+                {
+                    m_stateChangeListener.NotifiySlotsStateChanged(GetAllSlotValues());
                 }
             }
             
