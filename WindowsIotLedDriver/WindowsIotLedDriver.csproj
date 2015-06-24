@@ -113,12 +113,14 @@
     <Compile Include="AnimatedLedBase.cs" />
     <Compile Include="External\AnimatedLed.cs" />
     <Compile Include="External\IControllerStateChangeListener.cs" />
+    <Compile Include="External\PwmLedController.cs" />
     <Compile Include="Interfaces\ILedChangeListener.cs" />
     <Compile Include="Interfaces\IReadableLed.cs" />
     <Compile Include="External\Led.cs" />
     <Compile Include="LedBase.cs" />
     <Compile Include="External\LedController.cs" />
     <Compile Include="LedControllerBase.cs" />
+    <Compile Include="PwmLedControllerBase.cs" />
     <Compile Include="TheAnimator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -137,6 +139,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="External\IAnimationTickListener.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsIoT, Version=10.0.10069.0">
+      <Name>Windows IoT Extension SDK</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

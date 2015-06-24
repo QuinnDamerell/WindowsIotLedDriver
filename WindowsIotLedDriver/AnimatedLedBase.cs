@@ -38,9 +38,14 @@ namespace WindowsIotLedDriver
 
         public bool NotifiyAnimationTick(int timeElapsedMs)
         {
-            if(m_led.Red < .95)
+            if(m_led.Intensity < .95)
             {
-                m_led.Red += .05;
+                m_led.Intensity += .05;
+            }
+            else
+            {
+                m_led.Intensity = 0;
+                m_led.Red = 1.0;
             }
 
             return true;

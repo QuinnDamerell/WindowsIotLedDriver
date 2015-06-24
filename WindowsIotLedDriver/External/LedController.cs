@@ -20,8 +20,8 @@ namespace WindowsIotLedDriver
         // Holds a reference to the base controller class
         LedControllerBase m_base;
 
-        // The constucrtor for the LED controller. The state change interface is used to tell the
-        // implmenter when slots have been added or removed, and when new update are aviable.
+        // The constructor for the LED controller. The state change interface is used to tell the
+        // implementer when slots have been added or removed, and when new update are available.
         // The controller update type indicates how the controller wants to take update, see above.
         public LedController(IControllerStatChangeListener stateListener, ControlerUpdateType updateType)
         {

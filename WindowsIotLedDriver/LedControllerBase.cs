@@ -127,7 +127,7 @@ namespace WindowsIotLedDriver
             m_stateChangeListener.NotifiySlotsRevmoed(startingPosition, slotsFilled);
         }
 
-        public void ToggleAnimation(bool enableAnmation, bool alwaysPaint, int animationRateMilliseconds = 100)
+        public void ToggleAnimation(bool enableAnmation, bool alwaysPaint, int animationRateMilliseconds = 16)
         {
             lock(animationLock)
             {
