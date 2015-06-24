@@ -110,11 +110,16 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AnimatedLed.cs" />
-    <Compile Include="Interfaces\ILedChangeNotification.cs" />
+    <Compile Include="AnimatedLedBase.cs" />
+    <Compile Include="External\AnimatedLed.cs" />
+    <Compile Include="External\IControllerStateChangeListener.cs" />
+    <Compile Include="Interfaces\ILedChangeListener.cs" />
     <Compile Include="Interfaces\IReadableLed.cs" />
-    <Compile Include="Led.cs" />
-    <Compile Include="LedController.cs" />
+    <Compile Include="External\Led.cs" />
+    <Compile Include="LedBase.cs" />
+    <Compile Include="External\LedController.cs" />
+    <Compile Include="LedControllerBase.cs" />
+    <Compile Include="TheAnimator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +135,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="External\IAnimationTickListener.cs" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

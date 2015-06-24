@@ -10,6 +10,6 @@ namespace WindowsIotLedDriver
     {
         void GetLedState(out LedType type, out double red, out double green, out double blue, out double intesity);
 
-        void SetNotificationCallback(int LedId, ILedChangeNotification callback);
+        void SetNotificationCallback(int LedId, ILedChangeListener callback);
     }
 }

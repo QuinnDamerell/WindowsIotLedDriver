@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WindowsIotLedDriver;
+using Windows.UI.Core;
 
 
 namespace LedDriverSample
@@ -27,10 +28,15 @@ namespace LedDriverSample
         Led m_led4;
         Led m_led5;
 
+        AnimatedLed m_animatedLed1;
+
+        CoreDispatcher m_dispatcher;
+
         public SimpleSample()
         {
             this.InitializeComponent();
             this.Loaded += SimpleSample_Loaded;
+            m_dispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
         }
 
         private void SimpleSample_Loaded(object sender, RoutedEventArgs e)
@@ -43,11 +49,13 @@ namespace LedDriverSample
             m_led4 = new Led(LedType.RBG);
             m_led5 = new Led(LedType.RBG);
 
-            m_controller.AssoicateLed(m_led1);
-            m_controller.AssoicateLed(m_led2);
-            m_controller.AssoicateLed(m_led3);
-            m_controller.AssoicateLed(m_led4);
-            m_controller.AssoicateLed(m_led5);
+            m_animatedLed1 = new AnimatedLed(m_led1, true);
+
+            m_controller.AssoicateLed(0, m_led1);
+            m_controller.AssoicateLed(3, m_led2);
+            m_controller.AssoicateLed(6, m_led3);
+            //m_controller.AssoicateLed(9, m_led4);
+            m_controller.AssoicateLed(12, m_led5);
 
             // Match the slider default
             m_led1.Intensity = 1.0;
@@ -61,38 +69,101 @@ namespace LedDriverSample
 
         public void UpdateVisualLed(int LedNumber, byte red, byte green, byte blue)
         {
-            switch(LedNumber)
+            m_dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    switch (LedNumber)
+                    {
+                        case 1:
+                            {
+                                VisualLed1.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, red, green, blue));
+                                break;
+                            }
+                        case 2:
+                            {
+                                VisualLed2.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, red, green, blue));
+                                break;
+                            }
+                        case 3:
+                            {
+                                VisualLed3.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, red, green, blue));
+                                break;
+                            }
+                        case 4:
+                            {
+                                VisualLed4.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, red, green, blue));
+                                break;
+                            }
+                        case 5:
+                            {
+                                VisualLed5.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, red, green, blue));
+                                break;
+                            }
+                        default:
+                            {
+                                throw new ArgumentException("The led isn't known!");
+                            }
+                    }
+                });           
+        }
+
+        public void UpdateVisualLed(int singleSlot, byte value)
+        {
+            m_dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                case 1:
-                    {
-                        VisualLed1.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, red, green, blue));
+                switch (singleSlot)
+                {
+                    case 0:
+                        VisualLed1.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, value, ((SolidColorBrush)(VisualLed1.Fill)).Color.G, ((SolidColorBrush)(VisualLed1.Fill)).Color.B));
                         break;
-                    }
-                case 2:
-                    {
-                        VisualLed2.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, red, green, blue));
+                    case 1:
+                        VisualLed1.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, ((SolidColorBrush)(VisualLed1.Fill)).Color.R, value, ((SolidColorBrush)(VisualLed1.Fill)).Color.B));
                         break;
-                    }
-                case 3:
-                    {
-                        VisualLed3.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, red, green, blue));
+                    case 2:
+                        VisualLed1.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, ((SolidColorBrush)(VisualLed1.Fill)).Color.R, ((SolidColorBrush)(VisualLed1.Fill)).Color.G, value));
                         break;
-                    }
-                case 4:
-                    {
-                        VisualLed4.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, red, green, blue));
+
+                    case 3:
+                        VisualLed2.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, value, ((SolidColorBrush)(VisualLed2.Fill)).Color.G, ((SolidColorBrush)(VisualLed2.Fill)).Color.B));
                         break;
-                    }
-                case 5:
-                    {
-                        VisualLed5.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, red, green, blue));
+                    case 4:
+                        VisualLed2.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, ((SolidColorBrush)(VisualLed2.Fill)).Color.R, value, ((SolidColorBrush)(VisualLed2.Fill)).Color.B));
                         break;
-                    }
-                default:
-                    {
-                        throw new ArgumentException("The led isn't known!");
-                    }
-            }
+                    case 5:
+                        VisualLed2.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, ((SolidColorBrush)(VisualLed2.Fill)).Color.R, ((SolidColorBrush)(VisualLed2.Fill)).Color.G, value));
+                        break;
+
+                    case 6:
+                        VisualLed3.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, value, ((SolidColorBrush)(VisualLed3.Fill)).Color.G, ((SolidColorBrush)(VisualLed3.Fill)).Color.B));
+                        break;
+                    case 7:
+                        VisualLed3.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, ((SolidColorBrush)(VisualLed3.Fill)).Color.R, value, ((SolidColorBrush)(VisualLed3.Fill)).Color.B));
+                        break;
+                    case 8:
+                        VisualLed3.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, ((SolidColorBrush)(VisualLed3.Fill)).Color.R, ((SolidColorBrush)(VisualLed3.Fill)).Color.G, value));
+                        break;
+
+                    case 9:
+                        VisualLed4.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, value, ((SolidColorBrush)(VisualLed4.Fill)).Color.G, ((SolidColorBrush)(VisualLed4.Fill)).Color.B));
+                        break;
+                    case 10:
+                        VisualLed4.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, ((SolidColorBrush)(VisualLed4.Fill)).Color.R, value, ((SolidColorBrush)(VisualLed4.Fill)).Color.B));
+                        break;
+                    case 11:
+                        VisualLed4.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, ((SolidColorBrush)(VisualLed4.Fill)).Color.R, ((SolidColorBrush)(VisualLed4.Fill)).Color.G, value));
+                        break;
+
+                    case 12:
+                        VisualLed5.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, value, ((SolidColorBrush)(VisualLed5.Fill)).Color.G, ((SolidColorBrush)(VisualLed5.Fill)).Color.B));
+                        break;
+                    case 13:
+                        VisualLed5.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, ((SolidColorBrush)(VisualLed5.Fill)).Color.R, value, ((SolidColorBrush)(VisualLed5.Fill)).Color.B));
+                        break;
+                    case 14:
+                        VisualLed5.Fill = new SolidColorBrush(Windows.UI.Color.FromArgb(255, ((SolidColorBrush)(VisualLed5.Fill)).Color.R, ((SolidColorBrush)(VisualLed5.Fill)).Color.G, value));
+                        break;
+
+                }
+            });
         }
 
         private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -122,13 +193,13 @@ namespace LedDriverSample
                     m_led2.Red = slider.Value / 100;
                     break;
                 case "Led2Green":
-                    m_led3.Green = slider.Value / 100;
+                    m_led2.Green = slider.Value / 100;
                     break;
                 case "Led2Blue":
-                    m_led3.Blue = slider.Value / 100;
+                    m_led2.Blue = slider.Value / 100;
                     break;
                 case "Led2Intensity":
-                    m_led3.Intensity = slider.Value / 100;
+                    m_led2.Intensity = slider.Value / 100;
                     break;
                 case "Led3Red":
                     m_led3.Red = slider.Value / 100;
@@ -167,8 +238,7 @@ namespace LedDriverSample
                     m_led5.Intensity = slider.Value / 100;
                     break;
                 default:                    
-                    break;
-                    
+                    break;                    
             }
         }
     }

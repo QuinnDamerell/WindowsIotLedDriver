@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace WindowsIotLedDriver
 {
-    public sealed class AnimatedLed
+    public interface IAnimationTickListner
     {
-        public AnimatedLed(Led baseLed)
-        {
-            
-        }
+        bool NotifiyAnimationTick(int timeElapsedMs);
     }
 }
