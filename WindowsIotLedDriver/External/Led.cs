@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WindowsIotLedDriver
+﻿namespace WindowsIotLedDriver
 {
     // Defines what kind of LED this is.
     public enum LedType

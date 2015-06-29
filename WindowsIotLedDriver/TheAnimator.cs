@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsIotLedDriver
 {
-    class TheAnimator
+    internal class TheAnimator
     {
         //
         // Private Vars 

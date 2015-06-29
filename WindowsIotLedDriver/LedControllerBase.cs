@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsIotLedDriver
 {
-    class LedControllerBase : ILedChangeListener, IAnimationTickListner
+    internal class LedControllerBase : ILedChangeListener, IAnimationTickListner
     {
         //
         // Private vars
@@ -15,8 +15,8 @@ namespace WindowsIotLedDriver
         // Holds the associated LEDs and their positions
         private Dictionary<int, WeakReference<Led>> m_ledMap;
 
-        // Holds a reference to the derived 
-        IControllerStatChangeListener m_stateChangeListener;
+        // Holds a reference to the extener
+        ILedControllerExtender m_controllerExtener;
         ControlerUpdateType m_updateType;
 
         // Animation vars
@@ -29,9 +29,14 @@ namespace WindowsIotLedDriver
         // 
         // Constructor
         //
-        public LedControllerBase(IControllerStatChangeListener extendedController, ControlerUpdateType updateType)
+        public LedControllerBase(ILedControllerExtender extendedController, ControlerUpdateType updateType)
         {
-            m_stateChangeListener = extendedController;
+            if(extendedController == null)
+            {
+                throw new Exception("A controller extender is required!");
+            }
+            
+            m_controllerExtener = extendedController;
             m_updateType = updateType;
             m_animationEnabled = false;
             m_alwaysPaint = false;
@@ -85,7 +90,7 @@ namespace WindowsIotLedDriver
 
             // Inform the listener that slots need to be added. The listener should throw if
             // this fails.
-            m_stateChangeListener.NotifiySlotsAdded(startingSlot, slotsNeeded);
+            m_controllerExtener.NotifiySlotsAdded(startingSlot, slotsNeeded);
 
             // Now actually add the LEDs to the map.
             lock(m_ledMap)
@@ -124,7 +129,7 @@ namespace WindowsIotLedDriver
             dissociateLed.GetBase().RemoveNotificationCallback();
 
             // Tell the listener last, if they fail we still want to do our logic
-            m_stateChangeListener.NotifiySlotsRevmoed(startingPosition, slotsFilled);
+            m_controllerExtener.NotifiySlotsRevmoed(startingPosition, slotsFilled);
         }
 
         public void ToggleAnimation(bool enableAnmation, bool alwaysPaint, int animationRateMilliseconds = 16)
@@ -232,7 +237,7 @@ namespace WindowsIotLedDriver
                 else
                 {
                     // We need to tell the listener of the new state
-                    m_stateChangeListener.NotifiySlotsStateChanged(GetAllSlotValues());
+                    m_controllerExtener.NotifiySlotsStateChanged(GetAllSlotValues());
                 }
             }
             else
@@ -248,7 +253,7 @@ namespace WindowsIotLedDriver
 
                     if (type == LedType.SingleColor)
                     {
-                        m_stateChangeListener.NotifiySlotStateChanged(baseSlot, intensity);
+                        m_controllerExtener.NotifiySlotStateChanged(baseSlot, intensity);
                     }
                     else
                     {
@@ -256,18 +261,18 @@ namespace WindowsIotLedDriver
                         switch(changedValue)
                         {
                             case LedChangeValue.Red:
-                                m_stateChangeListener.NotifiySlotStateChanged(baseSlot, red * intensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot, red * intensity);
                                 break;
                             case LedChangeValue.Green:
-                                m_stateChangeListener.NotifiySlotStateChanged(baseSlot + 1, green * intensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 1, green * intensity);
                                 break;
                             case LedChangeValue.Blue:
-                                m_stateChangeListener.NotifiySlotStateChanged(baseSlot + 2, blue * intensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 2, blue * intensity);
                                 break;
                             case LedChangeValue.All:
-                                m_stateChangeListener.NotifiySlotStateChanged(baseSlot, red * intensity);
-                                m_stateChangeListener.NotifiySlotStateChanged(baseSlot + 1, green * intensity);
-                                m_stateChangeListener.NotifiySlotStateChanged(baseSlot + 2, blue * intensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot, red * intensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 1, green * intensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 2, blue * intensity);
                                 break;
                         }            
                     }
@@ -311,7 +316,7 @@ namespace WindowsIotLedDriver
                 // Update the state if something changed or we always should.
                 if(wasUpdate || m_alwaysPaint)
                 {
-                    m_stateChangeListener.NotifiySlotsStateChanged(GetAllSlotValues());
+                    m_controllerExtener.NotifiySlotsStateChanged(GetAllSlotValues());
                 }
             }
             

@@ -241,5 +241,11 @@ namespace LedDriverSample
                     break;                    
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Random rand = new Random();
+            m_animatedLed1.Animate(rand.NextDouble(), rand.NextDouble(), rand.NextDouble(), -1, new TimeSpan(0, 0, 0, 1), AnimationType.Linear);   
+        }
     }
 }

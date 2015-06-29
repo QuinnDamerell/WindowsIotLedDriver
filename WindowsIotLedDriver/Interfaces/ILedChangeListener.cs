@@ -14,7 +14,7 @@ namespace WindowsIotLedDriver
         Blue
     }
 
-    public interface ILedChangeListener
+    internal interface ILedChangeListener
     {
         void NotifiyLedChange(int baseSlot, LedChangeValue changedValue);
 

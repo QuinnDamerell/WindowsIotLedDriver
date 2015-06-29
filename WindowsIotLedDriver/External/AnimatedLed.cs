@@ -1,17 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WindowsIotLedDriver
 {
+    public enum AnimationType
+    {
+        Linear,
+    }
+
     public sealed class AnimatedLed
     {
         public LedType Type
         {
             get { return m_base.GetLed().Type; }
         }
+
+        // Todo fix
+        internal const double INGORE_VALUE = -1;
 
         //
         // Private Vars
@@ -31,6 +35,11 @@ namespace WindowsIotLedDriver
         public Led GetLed()
         {
             return m_base.GetLed();
+        }
+
+        public void Animate(double red, double green, double blue, double intensity, TimeSpan animationTime, AnimationType type)
+        {
+            m_base.Animate(red, green, blue, intensity, animationTime, type);
         }
 
         internal AnimatedLedBase GetBase()

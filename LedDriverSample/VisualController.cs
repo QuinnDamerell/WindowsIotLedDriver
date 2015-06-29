@@ -7,7 +7,7 @@ using WindowsIotLedDriver;
 
 namespace LedDriverSample
 {
-    class VisualController : IControllerStatChangeListener
+    class VisualController : ILedControllerExtender
     {
         LedController m_baseController;
         IVisualLedListener m_listner;

@@ -68,6 +68,7 @@ namespace WindowsIotLedDriver
                 FireLedChangeNotificaiton(LedChangeValue.All);
             }
         }
+
         public LedType Type { get { return m_type; } }
 
         //
@@ -142,10 +143,19 @@ namespace WindowsIotLedDriver
                 m_controller.ResigerForAnimationCallbacks(m_animationTickListener);
             }
         }
+        
+        // Called by the controller to remove the assoication.
+        public void RemoveNotificationCallback()
+        {
+            m_firstSlot = -1;
+            m_controller = null;
+        }
 
+        // Called by the animated LED class. This function should register with the controller 
+        // for antimation callbacks.
         public void ToggleResigerForAnimationTicks(bool regsiter, IAnimationTickListner listener)
         {
-            if(regsiter)
+            if (regsiter)
             {
                 m_animationTickListener = listener;
             }
@@ -155,16 +165,10 @@ namespace WindowsIotLedDriver
             }
 
             // Only register if the controller exists
-            if(m_animationTickListener != null && m_controller != null)
+            if (m_animationTickListener != null && m_controller != null)
             {
                 m_controller.ResigerForAnimationCallbacks(listener);
             }
-        }
-
-        public void RemoveNotificationCallback()
-        {
-            m_firstSlot = -1;
-            m_controller = null;
         }
 
         // Tells the controller that a value has changed.

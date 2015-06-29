@@ -36,6 +36,7 @@
                 <Slider x:Name="Led1Blue" ValueChanged="Slider_ValueChanged" />
                 <TextBlock Text="Intensity"/>
                 <Slider x:Name="Led1Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
+                <Button Content="Animate Red Up" Click="Button_Click"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Grid.Row="1" Padding="20">

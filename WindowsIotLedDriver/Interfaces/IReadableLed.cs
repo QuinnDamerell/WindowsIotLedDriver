@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsIotLedDriver
 {
-    public interface IReadableLed
+    internal interface IReadableLed
     {
         void GetLedState(out LedType type, out double red, out double green, out double blue, out double intesity);
 

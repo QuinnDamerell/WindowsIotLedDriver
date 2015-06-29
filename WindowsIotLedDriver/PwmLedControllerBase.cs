@@ -7,7 +7,7 @@ using Windows.Devices.Gpio;
 
 namespace WindowsIotLedDriver
 {
-    class PwmLedControllerBase : IControllerStatChangeListener, IAnimationTickListner
+    internal class PwmLedControllerBase : ILedControllerExtender, IAnimationTickListner
     {
         //
         // Private Vars

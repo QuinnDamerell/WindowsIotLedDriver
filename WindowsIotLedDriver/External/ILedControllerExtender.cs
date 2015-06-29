@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WindowsIotLedDriver
 {
-    public interface IControllerStatChangeListener
+    public interface ILedControllerExtender
     {
         // Informs the controller that a slot has been added. The implementer should throw 
         // if the slot can't be setup properly.

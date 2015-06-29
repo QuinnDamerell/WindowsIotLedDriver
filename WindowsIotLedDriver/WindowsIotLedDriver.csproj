@@ -112,7 +112,7 @@
   <ItemGroup>
     <Compile Include="AnimatedLedBase.cs" />
     <Compile Include="External\AnimatedLed.cs" />
-    <Compile Include="External\IControllerStateChangeListener.cs" />
+    <Compile Include="External\ILedControllerExtender.cs" />
     <Compile Include="External\PwmLedController.cs" />
     <Compile Include="Interfaces\ILedChangeListener.cs" />
     <Compile Include="Interfaces\IReadableLed.cs" />
@@ -138,7 +138,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="External\IAnimationTickListener.cs" />
+    <Compile Include="Interfaces\IAnimationTickListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsIoT, Version=10.0.10069.0">
