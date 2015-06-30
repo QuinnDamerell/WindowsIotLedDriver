@@ -8,80 +8,98 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid Height="500" Width="800">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>      
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <ScrollViewer MinZoomFactor="0.5" MaxZoomFactor="2.0" ZoomMode="Enabled" VerticalScrollMode="Enabled" HorizontalScrollMode="Enabled">
+        <StackPanel VerticalAlignment="Center" Width="800">
+            <TextBlock Text="Led Driver Simple Sample" FontSize="23" Margin="20"/>
+                <TextBlock Text="This is a simple example created to show off the capabilities of the LED driver package. Below you will see a number of sliders and buttons that will all change the look of the LEDs on screen. Changing one of the values will invoke the LED driver to make a change, which would normally go to a LED controller and would update real world LEDs. But for the sake of this example we implemented a VisualLedController which is able to reflect LED changes to the UI. See SimpleSample.cs for implementation details." TextWrapping="WrapWholeWords" Margin="20,10,20,40"/> 
+            
+            <Grid Height="550" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>      
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
 
-            <Ellipse Grid.Column="0" Grid.Row="0" x:Name="VisualLed1" Width="150" Height="150" Fill="Black" />
-            <Ellipse Grid.Column="1" Grid.Row="0" x:Name="VisualLed2" Width="150" Height="150" Fill="Black" />
-            <Ellipse Grid.Column="2" Grid.Row="0" x:Name="VisualLed3" Width="150" Height="150" Fill="Black" />
-            <Ellipse Grid.Column="3" Grid.Row="0" x:Name="VisualLed4" Width="150" Height="150" Fill="Black" />
-            <Ellipse Grid.Column="4" Grid.Row="0" x:Name="VisualLed5" Width="150" Height="150" Fill="Black" />
+                <Ellipse Grid.Column="0" Grid.Row="0" x:Name="VisualLed1" Width="150" Height="150" Fill="Black" />
+                <Ellipse Grid.Column="1" Grid.Row="0" x:Name="VisualLed2" Width="150" Height="150" Fill="Black" />
+                <Ellipse Grid.Column="2" Grid.Row="0" x:Name="VisualLed3" Width="150" Height="150" Fill="Black" />
+                <Ellipse Grid.Column="3" Grid.Row="0" x:Name="VisualLed4" Width="150" Height="150" Fill="Black" />
+                <Ellipse Grid.Column="4" Grid.Row="0" x:Name="VisualLed5" Width="150" Height="150" Fill="Black" />
 
-            <StackPanel Grid.Column="0" Grid.Row="1" Padding="20">
-                <TextBlock Text="Red"/>
-                <Slider x:Name="Led1Red" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Green"/>
-                <Slider x:Name="Led1Green" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Blue"/>
-                <Slider x:Name="Led1Blue" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Intensity"/>
-                <Slider x:Name="Led1Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
-                <Button Content="Animate Red Up" Click="Button_Click"/>
+                <StackPanel Grid.Column="0" Grid.Row="1" Padding="20">
+                    <TextBlock Text="Red"/>
+                    <Slider x:Name="Led1Red" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Green"/>
+                    <Slider x:Name="Led1Green" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Blue"/>
+                    <Slider x:Name="Led1Blue" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Intensity"/>
+                    <Slider x:Name="Led1Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
+                    <Button Content="Animate Rand" Name="Animate1" Click="AnimationButton_Click"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="1" Padding="20">
+                    <TextBlock Text="Red"/>
+                    <Slider x:Name="Led2Red" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Green"/>
+                    <Slider x:Name="Led2Green" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Blue"/>
+                    <Slider x:Name="Led2Blue" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Intensity"/>
+                    <Slider x:Name="Led2Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
+                    <Button Content="Animate Rand" Name="Animate2" Click="AnimationButton_Click"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Grid.Row="1" Padding="20">
+                    <TextBlock Text="Red"/>
+                    <Slider x:Name="Led3Red" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Green"/>
+                    <Slider x:Name="Led3Green" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Blue"/>
+                    <Slider x:Name="Led3Blue" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Intensity"/>
+                    <Slider x:Name="Led3Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
+                    <Button Content="Animate Rand" Name="Animate3" Click="AnimationButton_Click"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="3" Grid.Row="1" Padding="20">
+                    <TextBlock Text="Red"/>
+                    <Slider x:Name="Led4Red" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Green"/>
+                    <Slider x:Name="Led4Green" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Blue"/>
+                    <Slider x:Name="Led4Blue" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Intensity"/>
+                    <Slider x:Name="Led4Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
+                    <Button Content="Animate Rand" Name="Animate4" Click="AnimationButton_Click"/>                
+                </StackPanel>
+
+                <StackPanel Grid.Column="4" Grid.Row="1" Padding="20">
+                    <TextBlock Text="Red"/>
+                    <Slider x:Name="Led5Red" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Green"/>
+                    <Slider x:Name="Led5Green" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Blue"/>
+                    <Slider x:Name="Led5Blue" ValueChanged="Slider_ValueChanged" />
+                    <TextBlock Text="Intensity"/>
+                    <Slider x:Name="Led5Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
+                    <Button Content="Animate Rand" Name="Animate5" Click="AnimationButton_Click"/>                
+                </StackPanel>
+            </Grid>
+
+            <TextBlock Text="Animation Types" Padding="20,0,0,0" Margin="0,-20,0,0"/>
+            <StackPanel Orientation="Horizontal" Padding="20,0,0,0">
+                <Button Content="Cycle Random" Name="StartRandom" Click="AnimationButton_Click" Margin="0,8,8,8"/>
+                <Button Content="Animate Time" Name="StartClock" Click="AnimationButton_Click" Margin="0,8,8,8"/>
             </StackPanel>
-
-            <StackPanel Grid.Column="1" Grid.Row="1" Padding="20">
-                <TextBlock Text="Red"/>
-                <Slider x:Name="Led2Red" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Green"/>
-                <Slider x:Name="Led2Green" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Blue"/>
-                <Slider x:Name="Led2Blue" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Intensity"/>
-                <Slider x:Name="Led2Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
-            </StackPanel>
-
-            <StackPanel Grid.Column="2" Grid.Row="1" Padding="20">
-                <TextBlock Text="Red"/>
-                <Slider x:Name="Led3Red" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Green"/>
-                <Slider x:Name="Led3Green" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Blue"/>
-                <Slider x:Name="Led3Blue" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Intensity"/>
-                <Slider x:Name="Led3Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
-            </StackPanel>
-
-            <StackPanel Grid.Column="3" Grid.Row="1" Padding="20">
-                <TextBlock Text="Red"/>
-                <Slider x:Name="Led4Red" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Green"/>
-                <Slider x:Name="Led4Green" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Blue"/>
-                <Slider x:Name="Led4Blue" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Intensity"/>
-                <Slider x:Name="Led4Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
-            </StackPanel>
-
-            <StackPanel Grid.Column="4" Grid.Row="1" Padding="20">
-                <TextBlock Text="Red"/>
-                <Slider x:Name="Led5Red" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Green"/>
-                <Slider x:Name="Led5Green" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Blue"/>
-                <Slider x:Name="Led5Blue" ValueChanged="Slider_ValueChanged" />
-                <TextBlock Text="Intensity"/>
-                <Slider x:Name="Led5Intensity" Value="100" ValueChanged="Slider_ValueChanged"/>
-            </StackPanel>
-        </Grid>
+            <Button Content="Stop Animations" Name="StopAnimations" Click="AnimationButton_Click" Margin="20,8,8,8"/>
+        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

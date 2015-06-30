@@ -99,14 +99,13 @@
     <Compile Include="SimpleSample.xaml.cs">
       <DependentUpon>SimpleSample.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VisualController.cs" />
+    <Compile Include="VisualLedController.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="ApplicationInsights.config" />
-    <None Include="LedDriverSample_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

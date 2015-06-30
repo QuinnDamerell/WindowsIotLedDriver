@@ -9,13 +9,34 @@ namespace WindowsIotLedDriver
     internal class LedControllerBase : ILedChangeListener, IAnimationTickListner
     {
         //
+        // Public vars
+        //
+        public double MasterIntensity
+        {
+            get
+            {
+                return m_masterIntensity;
+            }
+            set
+            {
+                if(value < 0 || value > 1.0)
+                {
+                    throw new ArgumentOutOfRangeException("The intensity must be between 0.0 and 1.0");
+                }
+                m_masterIntensity = value;
+            }
+        }
+
+        //
         // Private vars
         //
+
+        private double m_masterIntensity;
 
         // Holds the associated LEDs and their positions
         private Dictionary<int, WeakReference<Led>> m_ledMap;
 
-        // Holds a reference to the extener
+        // Holds a reference to the extender
         ILedControllerExtender m_controllerExtener;
         ControlerUpdateType m_updateType;
 
@@ -24,6 +45,7 @@ namespace WindowsIotLedDriver
         Object animationLock = new Object();
         bool m_animationEnabled;
         bool m_alwaysPaint;
+        bool m_isDirty;
         List<WeakReference<IAnimationTickListner>> m_animationListeners;
 
         // 
@@ -40,8 +62,10 @@ namespace WindowsIotLedDriver
             m_updateType = updateType;
             m_animationEnabled = false;
             m_alwaysPaint = false;
+            m_isDirty = false;
             m_ledMap = new Dictionary<int, WeakReference<Led>>();
             m_animationListeners = new List<WeakReference<IAnimationTickListner>>();
+            m_masterIntensity = 1.0;
         }
 
         //
@@ -49,7 +73,7 @@ namespace WindowsIotLedDriver
         //
 
         // Binds an LED object to a controller.
-        public void AssoicateLed(int startingSlot, Led assoicateLed)
+        public void AssociateLed(int startingSlot, Led assoicateLed)
         {
             if (assoicateLed == null)
             {
@@ -183,15 +207,15 @@ namespace WindowsIotLedDriver
                             // Add the values to the slots
                             if(type == LedType.SingleColor)
                             {
-                                slotValues.Add(intensity);
+                                slotValues.Add(intensity * m_masterIntensity);
                                 currentSlotPosition++;
                                 foundUsedSlots++;
                             }
                             else
                             {
-                                slotValues.Add(red * intensity);
-                                slotValues.Add(green * intensity);
-                                slotValues.Add(blue * intensity);
+                                slotValues.Add(red * intensity * m_masterIntensity);
+                                slotValues.Add(green * intensity * m_masterIntensity);
+                                slotValues.Add(blue * intensity * m_masterIntensity);
                                 currentSlotPosition += 3;
                                 foundUsedSlots += 3;
                             }
@@ -232,6 +256,7 @@ namespace WindowsIotLedDriver
                 if(m_animationEnabled)
                 {
                     // If the animation thread is running it will take care of pushing updates.
+                    m_isDirty = true;
                     return;
                 }
                 else
@@ -253,7 +278,7 @@ namespace WindowsIotLedDriver
 
                     if (type == LedType.SingleColor)
                     {
-                        m_controllerExtener.NotifiySlotStateChanged(baseSlot, intensity);
+                        m_controllerExtener.NotifiySlotStateChanged(baseSlot, intensity * m_masterIntensity);
                     }
                     else
                     {
@@ -261,18 +286,18 @@ namespace WindowsIotLedDriver
                         switch(changedValue)
                         {
                             case LedChangeValue.Red:
-                                m_controllerExtener.NotifiySlotStateChanged(baseSlot, red * intensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot, red * intensity * m_masterIntensity);
                                 break;
                             case LedChangeValue.Green:
-                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 1, green * intensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 1, green * intensity * m_masterIntensity);
                                 break;
                             case LedChangeValue.Blue:
-                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 2, blue * intensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 2, blue * intensity * m_masterIntensity);
                                 break;
                             case LedChangeValue.All:
-                                m_controllerExtener.NotifiySlotStateChanged(baseSlot, red * intensity);
-                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 1, green * intensity);
-                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 2, blue * intensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot, red * intensity * m_masterIntensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 1, green * intensity * m_masterIntensity);
+                                m_controllerExtener.NotifiySlotStateChanged(baseSlot + 2, blue * intensity * m_masterIntensity);
                                 break;
                         }            
                     }
@@ -314,8 +339,9 @@ namespace WindowsIotLedDriver
                 // if the update type is all slots and we are animating we will ignore
                 // updates while animating so we can do the update once at the end.
                 // Update the state if something changed or we always should.
-                if(wasUpdate || m_alwaysPaint)
+                if(wasUpdate || m_alwaysPaint || m_isDirty)
                 {
+                    m_isDirty = false;
                     m_controllerExtener.NotifiySlotsStateChanged(GetAllSlotValues());
                 }
             }

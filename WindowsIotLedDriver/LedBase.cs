@@ -144,7 +144,7 @@ namespace WindowsIotLedDriver
             }
         }
         
-        // Called by the controller to remove the assoication.
+        // Called by the controller to remove the association.
         public void RemoveNotificationCallback()
         {
             m_firstSlot = -1;
@@ -152,7 +152,7 @@ namespace WindowsIotLedDriver
         }
 
         // Called by the animated LED class. This function should register with the controller 
-        // for antimation callbacks.
+        // for animation callbacks.
         public void ToggleResigerForAnimationTicks(bool regsiter, IAnimationTickListner listener)
         {
             if (regsiter)

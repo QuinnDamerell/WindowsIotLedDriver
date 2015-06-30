@@ -9,7 +9,7 @@ namespace WindowsIotLedDriver
     internal class TheAnimator
     {
         //
-        // Private Vars 
+        // Private Vars
         //
 
         IAnimationTickListner m_tickListner;

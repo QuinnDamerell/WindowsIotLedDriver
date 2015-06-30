@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WindowsIotLedDriver
 {
+    // The base call for animated LEDs
     internal class AnimatedLedBase : IAnimationTickListner
     {
         // 
@@ -15,7 +16,7 @@ namespace WindowsIotLedDriver
         // Holds a reference to the backing LED
         Led m_led;
 
-        // Holds the derisred values for each of the LED components
+        // Holds the desired values for each of the LED components
         double m_desiredRed = 0.0;
         double m_startRed = 0.0;
         double m_desiredGreen = 0.0;
@@ -26,7 +27,7 @@ namespace WindowsIotLedDriver
         double m_startIntensity = 0.0;
 
         // Holds the time for each animation. A time remain of negative indicates the
-        // animatino is done.
+        // animation is done.
         int m_animationRemainRed = -1;
         uint m_animationLengthRed = 0;
         int m_animationRemainBlue = -1;
@@ -50,7 +51,7 @@ namespace WindowsIotLedDriver
         {
             if(led == null)
             {
-                throw new Exception("You must suply a LED object for this consturctor!");
+                throw new Exception("You must supply a LED object for this constructor!");
             }
             m_led = led;
             InitValues();
@@ -65,6 +66,7 @@ namespace WindowsIotLedDriver
             return m_led;
         }
 
+        // Called by the consumer when they want to animate the LED
         public void Animate(double red, double green, double blue, double intensity, TimeSpan animationTime, AnimationType type)
         {
             // Bounds check
@@ -86,7 +88,7 @@ namespace WindowsIotLedDriver
             }
             if(animationTime.TotalMilliseconds < 0)
             {
-                throw new ArgumentOutOfRangeException("The animation time must be postive!");
+                throw new ArgumentOutOfRangeException("The animation time must be positive!");
             }
 
             // Update the values that need updating
@@ -120,53 +122,61 @@ namespace WindowsIotLedDriver
             }
         }
 
+
+        // Called for each animation tick, the time given is the time from the last tick.
+        // Returns if something was changed or not.
         public bool NotifiyAnimationTick(int timeElapsedMs)
         {
-            bool wasWorkDone = false;
+            bool hasUpdates = false;
 
+            // Update Red
             double result = AnimateValue(m_led.Red, m_desiredRed, m_startRed, ref m_animationRemainRed, m_animationLengthRed, timeElapsedMs);
             if(result != -1)
             {
                 m_led.Red = result;
-                wasWorkDone = true;
+                hasUpdates = true;
             }
 
+            // Update Green
             result = AnimateValue(m_led.Green, m_desiredGreen, m_startGreen, ref m_animationRemainGreen, m_animationLengthGreen, timeElapsedMs);
             if (result != -1)
             {
                 m_led.Green = result;
-                wasWorkDone = true;
+                hasUpdates = true;
             }
 
+            // Update Blue
             result = AnimateValue(m_led.Blue, m_desiredBlue, m_startBlue, ref m_animationRemainBlue, m_animationLengthBlue, timeElapsedMs);
             if (result != -1)
             {
                 m_led.Blue = result;
-                wasWorkDone = true;
+                hasUpdates = true;
             }
 
+            // Update Intensity
             result = AnimateValue(m_led.Intensity, m_desiredIntensity, m_startIntensity, ref m_animationRemainIntensity, m_animationLengthIntensity, timeElapsedMs);
             if (result != -1)
             {
                 m_led.Intensity = result;
-                wasWorkDone = true;
+                hasUpdates = true;
             }
 
-            return wasWorkDone;
+            return hasUpdates;
         }
 
         //
         // Private functions
         //
 
-        private double AnimateValue(double currentValue, double desiredValue, double startValue, ref int animationRemain, uint animationLength, int timeElapsed )
+        // Does the animation logic for the give value
+        private double AnimateValue(double currentValue, double desiredValue, double startValue, ref int animationRemain, uint animationLength, int timeElapsed)
         {
             double returnValue = -1;
 
             // Check if the values are equal and if the animation is still running
             if (!AreCloseEnough(desiredValue, currentValue) && animationRemain >= 0)
             {
-                // Remove the elipased time
+                // Remove the elapsed time
                 animationRemain -= timeElapsed;
 
                 if (animationRemain > 0)
@@ -193,11 +203,13 @@ namespace WindowsIotLedDriver
             return returnValue;
         }
 
+        // Checks if two double are close enough
         private bool AreCloseEnough(double a, double b)
         {
             return Math.Abs(a - b) < 0.0001;
         }
 
+        // Inits values in the class
         private void InitValues()
         {
             // Grab the current color values of the LED
@@ -210,8 +222,7 @@ namespace WindowsIotLedDriver
             m_desiredIntensity = m_led.Intensity;
             m_startIntensity = m_desiredIntensity;
         }
-
-
+        
         // Registers the LED for ticks from the controller
         private void ToggleResigerForAnimationTicks(bool register)
         {

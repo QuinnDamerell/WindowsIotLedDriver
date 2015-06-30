@@ -10,6 +10,22 @@ namespace WindowsIotLedDriver
     internal class PwmLedControllerBase : ILedControllerExtender, IAnimationTickListner
     {
         //
+        // Public Vars
+        //
+
+        public double MasterIntensity
+        {
+            get
+            {
+                return m_controller.MasterIntensity;
+            }
+            set
+            {
+                m_controller.MasterIntensity = value;
+            }
+        }
+
+        //
         // Private Vars
         //
         LedController m_controller;
@@ -81,7 +97,7 @@ namespace WindowsIotLedDriver
 
         public void AssoicateLed(int startingPosition, Led assoicateLed)
         {
-            m_controller.AssoicateLed(startingPosition, assoicateLed);
+            m_controller.AssociateLed(startingPosition, assoicateLed);
         }
 
         public void DissociateLed(Led dissociateLed)
