@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsIotLedDriver.External
+namespace WindowsIotLedDriver
 {
     /// <summary>
     /// This is an implementation of a controller for the TI TLC5947 chip. This may work with other SPI controllers,
