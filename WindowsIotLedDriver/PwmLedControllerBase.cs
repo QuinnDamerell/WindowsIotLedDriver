@@ -78,6 +78,7 @@ namespace WindowsIotLedDriver
 
         public void NotifiySlotsRevmoed(int firstSlot, int numberOfSlots)
         {
+            // #todo: Finished PWM remove logic
             // For each new pin, try to open it and then add it to the list
             //for (int i = 0; i < numberOfSlots; i++)
             //{
@@ -105,14 +106,14 @@ namespace WindowsIotLedDriver
             m_controller.DissociateLed(dissociateLed);
         }
 
-        public void ToggleAnimation(bool enableAnmation, bool alwaysPaint)
+        public void ToggleAnimation(bool enableAnmation)
         {
-            m_controller.ToggleAnimation(enableAnmation, alwaysPaint);
+            m_controller.ToggleAnimation(enableAnmation, false);
         }
 
-        public void ToggleAnimation(bool enableAnmation, bool alwaysPaint, int animationRateMilliseconds)
+        public void ToggleAnimation(bool enableAnmation, int animationRateMilliseconds)
         {
-            m_controller.ToggleAnimation(enableAnmation, alwaysPaint, animationRateMilliseconds);
+            m_controller.ToggleAnimation(enableAnmation, false, animationRateMilliseconds);
         }
 
         public void NotifiySlotStateChanged(int Slot, double newValue)
@@ -131,7 +132,7 @@ namespace WindowsIotLedDriver
             // Capture the current list of values for this tick
             IReadOnlyList<double> pinValuesThisTick = m_currentValuesList;
 
-            // Todo: calculate cycle per tick            
+            // #todo: calculate cycle per tick            
 
             // Loop through each value and set it.
             for(int i = 0; i < pinValuesThisTick.Count; i++)

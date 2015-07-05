@@ -11,7 +11,7 @@
         <ScrollViewer MinZoomFactor="0.5" MaxZoomFactor="2.0" ZoomMode="Enabled" VerticalScrollMode="Enabled" HorizontalScrollMode="Enabled">
         <StackPanel VerticalAlignment="Center" Width="800">
             <TextBlock Text="Led Driver Simple Sample" FontSize="23" Margin="20"/>
-                <TextBlock Text="This is a simple example created to show off the capabilities of the LED driver package. Below you will see a number of sliders and buttons that will all change the look of the LEDs on screen. Changing one of the values will invoke the LED driver to make a change, which would normally go to a LED controller and would update real world LEDs. But for the sake of this example we implemented a VisualLedController which is able to reflect LED changes to the UI. See SimpleSample.cs for implementation details." TextWrapping="WrapWholeWords" Margin="20,10,20,40"/> 
+            <TextBlock Text="This is a simple example created to show off the capabilities of the LED driver package. Below you will see a number of sliders and buttons that will all change the look of the LEDs on screen. Changing one of the values will invoke the LED driver to make a change, which would normally go to a LED controller and would update real world LEDs. But for the sake of this example we implemented a VisualLedController which is able to reflect LED changes to the UI. See SimpleSample.cs for implementation details." TextWrapping="WrapWholeWords" Margin="20,10,20,40"/> 
             
             <Grid Height="550" >
                 <Grid.RowDefinitions>

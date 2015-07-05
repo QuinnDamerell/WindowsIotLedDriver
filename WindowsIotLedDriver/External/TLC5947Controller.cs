@@ -1,11 +1,16 @@
-﻿namespace WindowsIotLedDriver
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WindowsIotLedDriver.External
 {
     /// <summary>
-    /// A implementation of a basic software PWM controller. This will use a simple thread method to try to create the correct
-    /// color in the LEDS. 
-    /// Note: this doesn't work very well and isn't 100% complete!
+    /// This is an implementation of a controller for the TI TLC5947 chip. This may work with other SPI controllers,
+    /// but I am not sure at this time.
     /// </summary>
-    public sealed class PwmLedController
+    public sealed class TLC5947Controller
     {
         //
         // Public vars
@@ -27,14 +32,14 @@
         }
 
         // Holds a reference to the base controller class
-        PwmLedControllerBase m_base;
+        TLC5947ControllerBase m_base;
 
         /// <summary>
-        /// Creates a new PWM controller
+        /// Creates a new SPI controller
         /// </summary>
-        public PwmLedController()
+        public TLC5947Controller()
         {
-            m_base = new PwmLedControllerBase();
+            m_base = new TLC5947ControllerBase();
         }
 
         /// <summary>
