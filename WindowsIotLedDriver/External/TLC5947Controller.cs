@@ -39,7 +39,7 @@ namespace WindowsIotLedDriver
         /// </summary>
         public TLC5947Controller()
         {
-            m_base = new TLC5947ControllerBase();
+            m_base = new TLC5947ControllerBase(0);
         }
 
         /// <summary>
