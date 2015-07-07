@@ -21,6 +21,8 @@ namespace WindowsIotLedDriver
 
         // A buffer to hold the bits we write.
         byte[] m_bitBuffer = new byte[36];
+        byte[] m_rbitBuffer = new byte[36];
+        GpioPin pin;
 
         //
         // Public Vars
@@ -53,22 +55,41 @@ namespace WindowsIotLedDriver
             // Create the controller
             m_controller = new LedController(this, ControlerUpdateType.AllSlots); // #todo set this when known.
 
-            // Create a async task to setup SPI
-            //new Task(async () =>
+            GpioController controller = GpioController.GetDefault();
+            pin = controller.OpenPin(5);
+            pin.SetDriveMode(GpioPinDriveMode.Output);
+
+            //for (int i = 0; i < 50; i++)
             //{
-            //    // Create the settings
-            //    var settings = new SpiConnectionSettings(SPI_CHIP_SELECT_LINE);
-            //    // Max SPI clock frequency, here it is 30MHz
-            //    settings.ClockFrequency = 30000000;
+            //    GpioPin pin;
+            //    GpioOpenStatus statu;
+            //    if (controller.TryOpenPin(i, GpioSharingMode.Exclusive, out pin, out statu))
+            //    {
+            //        pin.Write(GpioPinValue.Low);
+            //        pin.Write(GpioPinValue.High);
+            //        //pin.Write(GpioPinValue.Low);
+            //    }
+            //}
 
-            //    settings.Mode = SpiMode.Mode3;                                  /* The display expects an idle-high clock polarity, we use Mode3    
-            //                                                                     * to set the clock polarity and phase to: CPOL = 1, CPHA = 1         
-            //                                                                     */
 
-            //    string spiAqs = SpiDevice.GetDeviceSelector(SPI_CONTROLLER_NAME);       /* Find the selector string for the SPI bus controller          */
-            //    var devicesInfo = await DeviceInformation.FindAllAsync(spiAqs);         /* Find the SPI bus controller device with our selector string  */
-            //    m_spiDevice = await SpiDevice.FromIdAsync(devicesInfo[0].Id, settings);  /* Create an SpiDevice with our bus controller and SPI settings */
-            //});
+
+            // Create a async task to setup SPI
+            new Task(async () =>
+            {
+                // Create the settings
+                var settings = new SpiConnectionSettings(SPI_CHIP_SELECT_LINE);
+                // Max SPI clock frequency, here it is 30MHz
+                settings.ClockFrequency = 30000000;               
+   
+
+                settings.Mode = SpiMode.Mode0;                                  /* The display expects an idle-high clock polarity, we use Mode3    
+                                                                                 * to set the clock polarity and phase to: CPOL = 1, CPHA = 1         
+                                                                                 */
+
+                string spiAqs = SpiDevice.GetDeviceSelector(SPI_CONTROLLER_NAME);       /* Find the selector string for the SPI bus controller          */
+                var devicesInfo = await DeviceInformation.FindAllAsync(spiAqs);         /* Find the SPI bus controller device with our selector string  */
+                m_spiDevice = await SpiDevice.FromIdAsync(devicesInfo[0].Id, settings);  /* Create an SpiDevice with our bus controller and SPI settings */
+            }).Start();
         }
 
         public void NotifiySlotsAdded(int firstSlot, int numberOfSlots)
@@ -177,12 +198,65 @@ namespace WindowsIotLedDriver
             WriteToDevice(m_bitBuffer);
         }
 
+        int skip = 0;
+        int writebyte = 0;
         public void WriteToDevice(byte[] bits)
         {
+            //for(int i = 0; i < 36; i++)
+            //{
+            //    byte result = 0;
+            //    byte val = bits[i];
+            //    int counter = 8;
+            //    while (counter-- < 0)
+            //    {
+            //        result <<= 1;
+            //        result |= (byte)(val & 1);
+            //        val = (byte)(val >> 1);
+            //    }
+
+            //    m_rbitBuffer[36 - i] = result;
+            //}
+
+
+
+
+            for (int i = 0; i < bits.Length; i++)
+            {
+                m_rbitBuffer[35 - i] = bits[i];
+
+                //bits[i] = 0;
+            }
+
+            //writebyte += 5;
+            //if (writebyte > 4096)
+            //    writebyte = 0;
+
+            //if (writebyte < 15)
+            //{
+            //    bits[1] = (byte)((writebyte & 255) << 4);
+            //}
+            //else
+            //{
+            //    bits[1] = (byte)((writebyte & 255) << 4);
+            //    bits[0] = (byte)((writebyte & 0xFF0) >> 4);
+            //}
+
+            // bits[1] = (byte)((writebyte & 255) << 4);
+
+            //bits[0] = (byte)writebyte;
+
+            //pin.Write(GpioPinValue.High);
+
+            //System.Diagnostics.Debug.WriteLine("byte 1:"+bits[1] +" byte 0:"+bits[0]);
+
+
             if (m_spiDevice != null)
             {
+                pin.Write(GpioPinValue.Low);
                 // Write the entire buffer to the device.
-                m_spiDevice.Write(bits);
+                m_spiDevice.Write(m_rbitBuffer);
+                pin.Write(GpioPinValue.High);
+
             }
         }
     }
