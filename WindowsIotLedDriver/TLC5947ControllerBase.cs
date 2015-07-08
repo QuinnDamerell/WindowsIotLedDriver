@@ -56,8 +56,14 @@ namespace WindowsIotLedDriver
             m_controller = new LedController(this, ControlerUpdateType.AllSlots); // #todo set this when known.
 
             GpioController controller = GpioController.GetDefault();
-            pin = controller.OpenPin(5);
+            pin = controller.OpenPin(6);
             pin.SetDriveMode(GpioPinDriveMode.Output);
+
+
+            GpioPin pin2 = controller.OpenPin(5);
+            pin2.SetDriveMode(GpioPinDriveMode.Output);
+            pin2.Write(GpioPinValue.High);
+            pin2.Write(GpioPinValue.Low);
 
             //for (int i = 0; i < 50; i++)
             //{
