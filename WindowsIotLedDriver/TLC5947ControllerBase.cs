@@ -55,11 +55,12 @@ namespace WindowsIotLedDriver
             // Create the controller
             m_controller = new LedController(this, ControlerUpdateType.AllSlots); // #todo set this when known.
 
+            // Latch
             GpioController controller = GpioController.GetDefault();
             pin = controller.OpenPin(6);
             pin.SetDriveMode(GpioPinDriveMode.Output);
 
-
+            // Blackout
             GpioPin pin2 = controller.OpenPin(5);
             pin2.SetDriveMode(GpioPinDriveMode.Output);
             pin2.Write(GpioPinValue.High);
