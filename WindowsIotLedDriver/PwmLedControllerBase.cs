@@ -79,21 +79,6 @@ namespace WindowsIotLedDriver
         public void NotifiySlotsRevmoed(int firstSlot, int numberOfSlots)
         {
             // #todo: Finished PWM remove logic
-            // For each new pin, try to open it and then add it to the list
-            //for (int i = 0; i < numberOfSlots; i++)
-            //{
-            //    GpioPin pin;
-            //    GpioOpenStatus status;
-            //    if (m_gpioController.TryOpenPin(firstSlot + i, GpioSharingMode.Exclusive, out pin, out status))
-            //    {
-            //        // Get got the pin! Add it to our list.
-            //        m_pinList.Insert(firstSlot + i, pin);
-            //    }
-            //    else
-            //    {
-            //        throw new Exception("The pin is not available! Reason: " + status.ToString());
-            //    }
-            //}
         }
 
         public void AssoicateLed(int startingPosition, Led assoicateLed)

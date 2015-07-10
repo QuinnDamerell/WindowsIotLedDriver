@@ -37,9 +37,9 @@ namespace WindowsIotLedDriver
         /// <summary>
         /// Creates a new SPI controller
         /// </summary>
-        public TLC5947Controller()
+        public TLC5947Controller(uint latchPin, uint blackoutPin)
         {
-            m_base = new TLC5947ControllerBase(0);
+            m_base = new TLC5947ControllerBase(latchPin, blackoutPin);
         }
 
         /// <summary>

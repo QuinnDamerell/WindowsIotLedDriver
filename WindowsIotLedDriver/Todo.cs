@@ -6,7 +6,6 @@
     Soon:
         #todo add gamma correction
         #todo Add non-linear animations
-        #todo Add SPI logic into controller
 
     Sometime:
         #todo Fix up PWM controller
