@@ -35,8 +35,8 @@ m_controller.AssoicateLed(6, m_leds[2].GetLed());
 m_controller.AssoicateLed(9, m_leds[3].GetLed());
 m_controller.AssoicateLed(12, m_leds[4].GetLed());
 
-// Aniamte one of them!
-// Anaimte to color (255,152,25,255) in one second with a linear animation.
+// Animate one of them!
+// Animate to color (255,152,25,255) in one second with a linear animation.
 m_leds[0].Animate(255,152,25,255, new TimeSpan(0,0,1), AnimationType.Linear);
 ```
 
