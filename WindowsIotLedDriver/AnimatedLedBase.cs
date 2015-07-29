@@ -67,7 +67,7 @@ namespace WindowsIotLedDriver
         }
 
         // Called by the consumer when they want to animate the LED
-        public void Animate(double red, double green, double blue, double intensity, TimeSpan animationTime, AnimationType type)
+        public void Animate(double red, double green, double blue, double intensity, TimeSpan animationTime, AnimationType type = AnimationType.Linear)
         {
             // Bounds check
             if((red < 0 || red > 1.0) && red != AnimatedLed.INGORE_VALUE)
