@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -204,14 +206,15 @@ namespace WindowsIotLedDriver
             }
 
             if (m_spiDevice != null)
-            {               
+            {
+                // Write the latch low
+                m_latchPin.Write(GpioPinValue.Low);
+
                 // Write the entire buffer to the device.
                 m_spiDevice.Write(m_outputBuffer);
 
-                // Write the latch to low and high to indicate we have written all of the bits.
-                m_latchPin.Write(GpioPinValue.Low);
+                // Now write it high to commit the data.
                 m_latchPin.Write(GpioPinValue.High);
-                m_latchPin.Write(GpioPinValue.Low);
             }
         }
     }
