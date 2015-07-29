@@ -82,7 +82,7 @@ namespace WindowsIotLedDriver
                 // Create the settings
                 var settings = new SpiConnectionSettings(SPI_CHIP_SELECT_LINE);
                 // Max SPI clock frequency, here it is 30MHz
-                settings.ClockFrequency = 20000000;     
+                settings.ClockFrequency = 30000000;     
                 settings.Mode = SpiMode.Mode0;
                 //  Find the selector string for the SPI bus controller
                 string spiAqs = SpiDevice.GetDeviceSelector(SPI_CONTROLLER_NAME);
@@ -211,6 +211,7 @@ namespace WindowsIotLedDriver
                 // Write the latch to low and high to indicate we have written all of the bits.
                 m_latchPin.Write(GpioPinValue.Low);
                 m_latchPin.Write(GpioPinValue.High);
+                m_latchPin.Write(GpioPinValue.Low);
             }
         }
     }
