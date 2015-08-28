@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B1CFFF96-6C77-4098-BEA1-987C468B7986}</ProjectGuid>
+    <ProjectGuid>{64BC76D6-8392-4764-8163-4B46FA6327C7}</ProjectGuid>
     <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WindowsIotLedDriver</RootNamespace>
