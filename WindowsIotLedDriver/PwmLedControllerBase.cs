@@ -10,22 +10,6 @@ namespace WindowsIotLedDriver
     internal class PwmLedControllerBase : ILedControllerExtender, IAnimationTickListner
     {
         //
-        // Public Vars
-        //
-
-        public double MasterIntensity
-        {
-            get
-            {
-                return m_controller.MasterIntensity;
-            }
-            set
-            {
-                m_controller.MasterIntensity = value;
-            }
-        }
-
-        //
         // Private Vars
         //
         LedController m_controller;

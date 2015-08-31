@@ -37,22 +37,6 @@ namespace WindowsIotLedDriver
         GpioPin m_blackoutPin;
 
         //
-        // Public Vars
-        //
-
-        public double MasterIntensity
-        {
-            get
-            {
-                return m_controller.MasterIntensity;
-            }
-            set
-            {
-                m_controller.MasterIntensity = value;
-            }
-        }
-
-        //
         // Private Vars
         // 
         LedController m_controller;
@@ -123,6 +107,21 @@ namespace WindowsIotLedDriver
         public void ToggleAnimation(bool enableAnmation, int animationRateMilliseconds)
         {
             m_controller.ToggleAnimation(enableAnmation, false, animationRateMilliseconds);
+        }
+
+        public void AnimateMasterIntensity(double intensity, TimeSpan animationTime)
+        {
+            m_controller.AnimateMasterIntensity(intensity, animationTime);
+        }
+
+        public double GetMasterIntensity()
+        {
+            return m_controller.GetMasterIntensity();
+        }
+
+        public bool IsMasterIntensityAnimating()
+        {
+            return m_controller.IsMasterIntensityAnimating();
         }
 
         public void NotifiySlotStateChanged(int Slot, double newValue)

@@ -1,5 +1,7 @@
 ﻿
 
+using System;
+
 namespace WindowsIotLedDriver
 {
     /// <summary>
@@ -19,25 +21,6 @@ namespace WindowsIotLedDriver
     /// </summary>
     public sealed class LedController 
     {
-        //
-        // Public vars
-        //
-
-        /// <summary>
-        /// Sets a master intensity for the controller.
-        /// </summary>
-        public double MasterIntensity
-        {
-            get
-            {
-                return m_base.MasterIntensity;
-            }
-            set
-            {
-                m_base.MasterIntensity = value;
-            }
-        }
-
         //
         // Private vars
         //
@@ -106,6 +89,35 @@ namespace WindowsIotLedDriver
         public void ToggleAnimation(bool enableAnmation, bool alwaysPaint, int animationRateMilliseconds)
         {
             m_base.ToggleAnimation(enableAnmation, alwaysPaint, animationRateMilliseconds);
+        }
+
+        /// <summary>
+        /// Animates the master intensity for the controller.
+        /// </summary>
+        /// <param name="intensity">The new intensity</param>
+        /// <param name="animationTime">How long the animation should take</param>
+        /// <param name="type">The type of animation</param>
+        public void AnimateMasterIntensity(double intensity, TimeSpan animationTime)
+        {
+            m_base.AnimateMasterIntensity(intensity, animationTime);
+        }
+
+        /// <summary>
+        /// Returns the current intensity.
+        /// </summary>
+        /// <returns></returns>
+        public double GetMasterIntensity()
+        {
+            return m_base.GetMasterIntensity();
+        }
+
+        /// <summary>
+        /// Returns if the master intensity is currently animating.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsMasterIntensityAnimating()
+        {
+            return m_base.IsMasterIntensityAnimating();
         }
     }
 }

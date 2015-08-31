@@ -9,29 +9,13 @@ namespace WindowsIotLedDriver
     internal class LedControllerBase : ILedChangeListener, IAnimationTickListner
     {
         //
-        // Public vars
-        //
-        public double MasterIntensity
-        {
-            get
-            {
-                return m_masterIntensity;
-            }
-            set
-            {
-                if(value < 0 || value > 1.0)
-                {
-                    throw new ArgumentOutOfRangeException("The intensity must be between 0.0 and 1.0");
-                }
-                m_masterIntensity = value;
-            }
-        }
-
-        //
         // Private vars
         //
-
-        private double m_masterIntensity;
+        double m_masterIntensity = 0;
+        double m_desiredMasterIntensity = 0.0;
+        double m_startMasterIntensity = 0.0;
+        int m_animationRemainIntensity = -1;
+        uint m_animationLengthIntensity = 0;
 
         // Holds the associated LEDs and their positions
         private Dictionary<int, WeakReference<Led>> m_ledMap;
@@ -333,7 +317,10 @@ namespace WindowsIotLedDriver
                 }
             }
 
-            // Check our update type
+            // Animate the intensity
+            wasUpdate = AnimateIntensity(timeElapsedMs);
+
+            // Check our update type, if we updated the animation 
             if (m_updateType == ControlerUpdateType.AllSlots)
             {
                 // if the update type is all slots and we are animating we will ignore
@@ -345,8 +332,77 @@ namespace WindowsIotLedDriver
                     m_controllerExtener.NotifiySlotsStateChanged(GetAllSlotValues());
                 }
             }
+            else
+            {
+                // #todo handle intensity updates for per slot modes.
+            }
             
             return true;
+        }
+
+        public void AnimateMasterIntensity(double intensity, TimeSpan animationTime)
+        {
+            if (intensity < 0 || intensity > 1.0)
+            {
+                throw new ArgumentOutOfRangeException("The intensity must be between 0.0 and 1.0");
+            }
+
+            m_desiredMasterIntensity = intensity;
+            m_startMasterIntensity = m_masterIntensity;
+            m_animationLengthIntensity = (uint)animationTime.TotalMilliseconds;
+            m_animationRemainIntensity = (int)animationTime.TotalMilliseconds;
+        }
+
+        private bool AnimateIntensity(int timeElapsedMs)
+        {
+            // Update Intensity
+            // Check if the values are equal and if the animation is still running
+            bool didWork = false;
+            if (!AreCloseEnough(m_desiredMasterIntensity, m_masterIntensity) && m_animationRemainIntensity >= 0)
+            {
+                // Remove the elapsed time
+                m_animationRemainIntensity -= timeElapsedMs;
+
+                if (m_animationRemainIntensity > 0)
+                {
+                    // Figure out what the progress is
+                    double animationProgress = 1 - ((double)m_animationRemainIntensity / (double)m_animationLengthIntensity);
+
+                    // Set the led to the 
+                    m_masterIntensity = m_startMasterIntensity + ((m_desiredMasterIntensity - m_startMasterIntensity) * animationProgress);
+                }
+                else
+                {
+                    // We are done with the animation.
+                    m_masterIntensity = m_desiredMasterIntensity;
+                    m_animationRemainIntensity = -1;
+                }
+
+                didWork = true;
+            }
+            else
+            {
+                // If we don't need to animate anymore, kill the time.
+                m_animationRemainIntensity = -1;
+            }         
+
+            return didWork;
+        }
+
+        // Checks if two double are close enough
+        private bool AreCloseEnough(double a, double b)
+        {
+            return Math.Abs(a - b) < 0.0001;
+        }
+
+        public double GetMasterIntensity()
+        {
+            return m_masterIntensity;
+        }
+
+        public bool IsMasterIntensityAnimating()
+        {
+            return m_animationRemainIntensity != -1;
         }
     }
 }

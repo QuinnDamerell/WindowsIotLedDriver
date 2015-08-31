@@ -11,21 +11,6 @@
         // Public vars
         //
 
-        /// <summary>
-        /// Sets a master intensity for the controller.
-        /// </summary>
-        public double MasterIntensity
-        {
-            get
-            {
-                return m_base.MasterIntensity;
-            }
-            set
-            {
-                m_base.MasterIntensity = value;
-            }
-        }
-
         // Holds a reference to the base controller class
         PwmLedControllerBase m_base;
 
